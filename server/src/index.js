@@ -41,7 +41,6 @@ app.get('/dlinhabyrange/:range', bd.getDistinctLinhaByRange);
 // http://localhost:3102/ddescricaobyrangelinha/1603/Porta Pax Dian.
 app.get('/ddescricaobyrangelinha/:range/:linha', bd.getDistinctDescricaoByRangeLinha);
 
-
 /* 
 para deixar o seu servidor rodando na porta 3102
 http://localhost:3102/
