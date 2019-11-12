@@ -3,7 +3,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // cria o BD e abre a conexão com ele, e após, dispara a função callback
-const bd = new sqlite3.Database('./bdparceria.db', (error) => {
+const bd = new sqlite3.Database('./src/bdparceria.db', (error) => {
     if (error) {
         console.log(error.message);
     }
