@@ -1,9 +1,8 @@
 // importar o módulo sqlite3
 // ao definir verbose (detalhado) poderemos rastrear a pilha de execução
 const sqlite3 = require('sqlite3').verbose();
-
 // cria o BD e abre a conexão com ele, e após, dispara a função callback
-const bd = new sqlite3.Database('./src/bdparceria.db', (error) => {
+const bd = new sqlite3.Database('./bdparceria.db', (error) => {
     if (error) {
         console.log(error.message);
     }
@@ -17,14 +16,18 @@ const bd = new sqlite3.Database('./src/bdparceria.db', (error) => {
             else if (row == undefined) {
                 bd.run(
                     'create table if not exists tbdados(' +
-                    'iddados integer primary key autoincrement,' +
                     'range text NULL,' +
                     'linha text NULL,' +
+                    'posto text NULL,' +
                     'descricao text NULL,' +
                     'datainicioplan text NULL,' +
                     'datafimplan text NULL,' +
                     'datainicioreal text NULL,' +
-                    'datafimreal text NULL' +
+                    'datafimreal text NULL,' +
+                    'fimreal_fimplan real NULL,' +
+                    'inicioreal_inicioplan real NULL,' +
+                    'fimreal_inicioreal real NULL,' +
+                    'fimplan_inicioplan real NULL' +
                     ')'
                 );
                 console.log("tbdados criada");
@@ -33,27 +36,12 @@ const bd = new sqlite3.Database('./src/bdparceria.db', (error) => {
     }
 });
 
-
-// retorna todos os registros da tbdados
-const getDados = (request, response) => {
-    bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal '+ 
-        'from tbdados', 
-        (error, rows) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(rows);
-        }
-    );
-};
-
 // retorna todos os registros que possuem o range fornecido
 const getByRange = (request, response) => {
     bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal '+ 
-        'from tbdados where range = ?', 
-        [request.params.range], 
+        'select range, linha, posto, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal, fimreal_fimplan, inicioreal_inicioplan, fimreal_inicioreal, fimplan_inicioplan ' +
+        'from tbdados where range = ?',
+        [request.params.range],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -62,13 +50,14 @@ const getByRange = (request, response) => {
         }
     );
 };
+
 
 // retorna todos os registros que possuem a linha fornecida
 const getByLinha = (request, response) => {
     bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal '+ 
-        'from tbdados where linha = ?', 
-        [request.params.linha], 
+        'select range, linha, posto, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal, fimreal_fimplan, inicioreal_inicioplan, fimreal_inicioreal, fimplan_inicioplan ' +
+        'from tbdados where linha = ?',
+        [request.params.linha],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -78,12 +67,13 @@ const getByLinha = (request, response) => {
     );
 };
 
-// retorna todos os registros que possuem o range e a linha fornecidos
-const getByRangeLinha = (request, response) => {
+
+// retorna todos os registros que possuem o posto fornecido
+const getByPosto = (request, response) => {
     bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal '+ 
-        'from tbdados where range = ? and linha = ?', 
-        [request.params.range, request.params.linha], 
+        'select range, linha, posto, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal, fimreal_fimplan, inicioreal_inicioplan, fimreal_inicioreal, fimplan_inicioplan ' +
+        'from tbdados where posto = ?',
+        [request.params.posto],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -93,12 +83,12 @@ const getByRangeLinha = (request, response) => {
     );
 };
 
-// retorna todos os registros que possuem a descricao fornecida
-const getByDescricao = (request, response) => {
+// retorna todos os registros que possuem o range e o posto fornecido
+const getByRangePosto = (request, response) => {
     bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal '+ 
-        'from tbdados where descricao like ?', 
-        [request.params.descricao], 
+        'select range, linha, posto, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal, fimreal_fimplan, inicioreal_inicioplan, fimreal_inicioreal, fimplan_inicioplan ' +
+        'from tbdados where range = ? and posto = ?',
+        [request.params.range, request.params.posto],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -108,87 +98,32 @@ const getByDescricao = (request, response) => {
     );
 };
 
-// retorna todos os registros que possuem o range, a linha e a descricao fornecidos
-const getByRangeLinhaDescricao = (request, response) => {
+// retorna todos os registros que possuem o range, linha e posto fornecido
+const getByRangeLinhaPosto = (request, response) => {
     bd.all(
-        'select range, linha, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal,'+
-        '(strftime("%s",datafimreal) - strftime("%s",datainicioreal))/86400.0 as "real_fim_inicio",'+
-        '(strftime("%s",datafimplan) - strftime("%s",datainicioplan))/86400.0 as "plan_fim_inicio",'+
-        '(strftime("%s",datainicioreal) - strftime("%s",datainicioplan))/86400.0 as "inicio_real_plan",'+
-        '(strftime("%s",datafimreal) - strftime("%s",datafimplan))/86400.0 as "fim_real_plan" '+
-        'from tbdados where range = ? and linha like ? and descricao like ?',
-        [request.params.range, request.params.linha, request.params.descricao], 
+        'select range, linha, posto, descricao, datainicioplan, datafimplan, datainicioreal, datafimreal, fimreal_fimplan, inicioreal_inicioplan, fimreal_inicioreal, fimplan_inicioplan ' +
+        'from tbdados where range = ? and linha = ? and posto = ?',
+        [request.params.range, request.params.linha, request.params.posto],
         (error, rows) => {
-        if (error) {
-            throw error;
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
         }
-        response.status(200).json(rows);
-    });
+    );
 };
 
-// retorna as datas mínimas e máximas que possuem o range fornecido
-const getMinMaxByRange = (request, response) => {
-    bd.all(
-        'select range, linha, descricao, '+
-        'min(datainicioplan) as "mindatainicioplan", min(datafimplan) as "mindatafimplan", min(datainicioreal) as "mindatainicioreal", min(datafimreal) as "mindatafimreal",'+
-        'max(datainicioplan) as "maxdatainicioplan", max(datafimplan) as "maxdatafimplan", max(datainicioreal) as "maxdatainicioreal", max(datafimreal) as "maxdatafimreal",'+
-        '(strftime("%s",max(datainicioreal)) - strftime("%s",max(datainicioplan)))/86400.0 as "inicio_real_plan",'+
-        '(strftime("%s",max(datafimreal)) - strftime("%s",max(datafimplan)))/86400.0 as "fim_real_plan" '+
-        'from tbdados where range = ?',
-        [request.params.range], 
-        (error, rows) => {
-        if (error) {
-            throw error;
-        }
-        response.status(200).json(rows);
-    });
-};
-
-// retorna as datas mínimas e máximas que possuem o range e a linha fornecidos
-const getMinMaxByRangeLinha = (request, response) => {
-    bd.all(
-        'select range, linha, descricao, '+
-        'min(datainicioplan) as "mindatainicioplan", min(datafimplan) as "mindatafimplan", min(datainicioreal) as "mindatainicioreal", min(datafimreal) as "mindatafimreal",'+
-        'max(datainicioplan) as "maxdatainicioplan", max(datafimplan) as "maxdatafimplan", max(datainicioreal) as "maxdatainicioreal", max(datafimreal) as "maxdatafimreal",'+
-        '(strftime("%s",max(datainicioreal)) - strftime("%s",max(datainicioplan)))/86400.0 as "inicio_real_plan",'+
-        '(strftime("%s",max(datafimreal)) - strftime("%s",max(datafimplan)))/86400.0 as "fim_real_plan" '+
-        'from tbdados where range = ? and linha like ?',
-        [request.params.range, request.params.linha], 
-        (error, rows) => {
-        if (error) {
-            throw error;
-        }
-        response.status(200).json(rows);
-    });
-};
-
-// retorna as datas mínimas e máximas que possuem o range, a linha e a descricao fornecidos
-const getMinMaxByRangeLinhaDescricao = (request, response) => {
-    bd.all(
-        'select range, linha, descricao, '+
-        'min(datainicioplan) as "mindatainicioplan", min(datafimplan) as "mindatafimplan", min(datainicioreal) as "mindatainicioreal", min(datafimreal) as "mindatafimreal",'+
-        'max(datainicioplan) as "maxdatainicioplan", max(datafimplan) as "maxdatafimplan", max(datainicioreal) as "maxdatainicioreal", max(datafimreal) as "maxdatafimreal",'+
-        '(strftime("%s",max(datainicioreal)) - strftime("%s",max(datainicioplan)))/86400.0 as "inicio_real_plan",'+
-        '(strftime("%s",max(datafimreal)) - strftime("%s",max(datafimplan)))/86400.0 as "fim_real_plan" '+
-        'from tbdados where range = ? and linha like ? and descricao like ?',
-        [request.params.range, request.params.linha, request.params.descricao], 
-        (error, rows) => {
-        if (error) {
-            throw error;
-        }
-        response.status(200).json(rows);
-    });
-};
+// *************************
 
 // retorna os tipos de range
 const getDistinctRange = (request, response) => {
     bd.all(
-        'select distinct range from tbdados order by range', 
+        'select distinct range from tbdados order by range',
         (error, rows) => {
             if (error) {
                 throw error;
             }
-            response.b(200).json(rows);
+            response.status(200).json(rows);
         }
     );
 };
@@ -196,7 +131,7 @@ const getDistinctRange = (request, response) => {
 // retorna os tipos de linha
 const getDistinctLinha = (request, response) => {
     bd.all(
-        'select distinct linha from tbdados order by linha', 
+        'select distinct linha from tbdados order by linha',
         (error, rows) => {
             if (error) {
                 throw error;
@@ -207,9 +142,9 @@ const getDistinctLinha = (request, response) => {
 };
 
 // retorna os tipos de descricao
-const getDistinctDescricao = (request, response) => {
+const getDistinctPosto = (request, response) => {
     bd.all(
-        'select distinct descricao from tbdados order by descricao', 
+        'select distinct posto from tbdados order by posto',
         (error, rows) => {
             if (error) {
                 throw error;
@@ -219,11 +154,18 @@ const getDistinctDescricao = (request, response) => {
     );
 };
 
-// retorna os tipos distintos de linha por range
-const getDistinctLinhaByRange = (request, response) => {
+// *************************
+
+// retorna o somatório e média dos registros que possuem o range fornecido
+const getStatsByRange = (request, response) => {
     bd.all(
-        'select distinct linha from tbdados where range = ? order by linha',
-        [request.params.range], 
+        'select range, '+ 
+        'round(sum(fimreal_fimplan),2) as "sum_fimreal_fimplan", round(sum(inicioreal_inicioplan),2) as "sum_inicioreal_inicioplan", ' + 
+        'round(sum(fimreal_inicioreal),2) as "sum_fimreal_inicioreal", round(sum(fimplan_inicioplan),2) as "sum_fimplan_inicioplan", ' +
+        'round(avg(fimreal_fimplan),2) as "avg_fimreal_fimplan", round(avg(inicioreal_inicioplan),2) as "avg_inicioreal_inicioplan", ' + 
+        'round(avg(fimreal_inicioreal),2) as "avg_fimreal_inicioreal", round(avg(fimplan_inicioplan),2) as "avg_fimplan_inicioplan" ' +
+        'from tbdados where range = ?',
+        [request.params.range],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -233,11 +175,17 @@ const getDistinctLinhaByRange = (request, response) => {
     );
 };
 
-// retorna os tipos distintos de descricao por linha e range
-const getDistinctDescricaoByRangeLinha = (request, response) => {
+
+// retorna o somatório e média dos registros que possuem a linha fornecida
+const getStatsByLinha = (request, response) => {
     bd.all(
-        'select distinct descricao from tbdados where range = ? and linha = ? order by descricao',
-        [request.params.range, request.params.linha], 
+        'select linha, '+ 
+        'round(sum(fimreal_fimplan),2) as "sum_fimreal_fimplan", round(sum(inicioreal_inicioplan),2) as "sum_inicioreal_inicioplan", ' + 
+        'round(sum(fimreal_inicioreal),2) as "sum_fimreal_inicioreal", round(sum(fimplan_inicioplan),2) as "sum_fimplan_inicioplan", ' +
+        'round(avg(fimreal_fimplan),2) as "avg_fimreal_fimplan", round(avg(inicioreal_inicioplan),2) as "avg_inicioreal_inicioplan", ' + 
+        'round(avg(fimreal_inicioreal),2) as "avg_fimreal_inicioreal", round(avg(fimplan_inicioplan),2) as "avg_fimplan_inicioplan" ' +
+        'from tbdados where linha = ?',
+        [request.params.linha],
         (error, rows) => {
             if (error) {
                 throw error;
@@ -246,22 +194,82 @@ const getDistinctDescricaoByRangeLinha = (request, response) => {
         }
     );
 };
+
+// retorna o somatório e média dos registros que possuem o posto fornecido
+const getStatsByPosto = (request, response) => {
+    bd.all(
+        'select posto, '+ 
+        'round(sum(fimreal_fimplan),2) as "sum_fimreal_fimplan", round(sum(inicioreal_inicioplan),2) as "sum_inicioreal_inicioplan", ' + 
+        'round(sum(fimreal_inicioreal),2) as "sum_fimreal_inicioreal", round(sum(fimplan_inicioplan),2) as "sum_fimplan_inicioplan", ' +
+        'round(avg(fimreal_fimplan),2) as "avg_fimreal_fimplan", round(avg(inicioreal_inicioplan),2) as "avg_inicioreal_inicioplan", ' + 
+        'round(avg(fimreal_inicioreal),2) as "avg_fimreal_inicioreal", round(avg(fimplan_inicioplan),2) as "avg_fimplan_inicioplan" ' +
+        'from tbdados where posto = ?',
+        [request.params.posto],
+        (error, rows) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
+        }
+    );
+};
+
+//retorna o somatório e média dos registros que possuem o range e posto fornecido
+const getStatsByRangePosto = (request, response) => {
+    bd.all(
+        'select range, posto, '+ 
+        'round(sum(fimreal_fimplan),2) as "sum_fimreal_fimplan", round(sum(inicioreal_inicioplan),2) as "sum_inicioreal_inicioplan", ' + 
+        'round(sum(fimreal_inicioreal),2) as "sum_fimreal_inicioreal", round(sum(fimplan_inicioplan),2) as "sum_fimplan_inicioplan", ' +
+        'round(avg(fimreal_fimplan),2) as "avg_fimreal_fimplan", round(avg(inicioreal_inicioplan),2) as "avg_inicioreal_inicioplan", ' + 
+        'round(avg(fimreal_inicioreal),2) as "avg_fimreal_inicioreal", round(avg(fimplan_inicioplan),2) as "avg_fimplan_inicioplan" ' +
+        'from tbdados where range = ? and posto = ?',
+        [request.params.range, request.params.posto],
+        (error, rows) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
+        }
+    );
+};
+
+// retorna o somatório e média dos registros que possuem o range, linha e posto fornecido
+const getStatsByRangeLinhaPosto = (request, response) => {
+    bd.all(
+        'select range, linha, posto, '+ 
+        'round(sum(fimreal_fimplan),2) as "sum_fimreal_fimplan", round(sum(inicioreal_inicioplan),2) as "sum_inicioreal_inicioplan", ' + 
+        'round(sum(fimreal_inicioreal),2) as "sum_fimreal_inicioreal", round(sum(fimplan_inicioplan),2) as "sum_fimplan_inicioplan", ' +
+        'round(avg(fimreal_fimplan),2) as "avg_fimreal_fimplan", round(avg(inicioreal_inicioplan),2) as "avg_inicioreal_inicioplan", ' + 
+        'round(avg(fimreal_inicioreal),2) as "avg_fimreal_inicioreal", round(avg(fimplan_inicioplan),2) as "avg_fimplan_inicioplan" ' +
+        'from tbdados where range = ? and linha = ? and posto = ?',
+        [request.params.range, request.params.linha, request.params.posto],
+        (error, rows) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
+        }
+    );
+};
+
 
 module.exports = {
-    getDados,
-    getByRange,
-    getByLinha,
-    getByRangeLinha,
-    getByDescricao,
-    getByRangeLinhaDescricao,
-
-    getMinMaxByRange,
-    getMinMaxByRangeLinha,
-    getMinMaxByRangeLinhaDescricao,
-
+    /* LISTAR OS DADOS DISTINTOS */
     getDistinctRange,
     getDistinctLinha,
-    getDistinctDescricao,
-    getDistinctLinhaByRange,
-    getDistinctDescricaoByRangeLinha
+    getDistinctPosto,
+
+    /* LISTAR OS DADOS */
+    getByRange,
+    getByLinha,
+    getByPosto,
+    getByRangePosto,
+    getByRangeLinhaPosto,
+
+    /* LISTAR AS ESTATÍSTICAS DOS DADOS */
+    getStatsByRange,
+    getStatsByLinha,
+    getStatsByPosto,
+    getStatsByRangePosto,
+    getStatsByRangeLinhaPosto
 };

@@ -9,37 +9,38 @@ app.use(cors());
 // importar o módulo que possui o CRUD
 const bd = require('./clausulas');
 
-// retorna todos os registros
-// URL http://localhost:3102/tudo
-app.get("/tudo", bd.getDados);
-// http://localhost:3102/range/1603
-app.get('/range/:range', bd.getByRange);
-// http://localhost:3102/linha/Porta Pax Dian.
-app.get('/linha/:linha', bd.getByLinha);
-// http://localhost:3102/descricao/SELAGEM
-app.get('/descricao/:descricao', bd.getByDescricao);
-// http://localhost:3102/rangelinha/1603/Porta Pax Dian.
-app.get('/rangelinha/:range/:linha', bd.getByRangeLinha);   
-// http://localhost:3102/rangelinhadescricao/1603/Porta Pax Dian./SELAGEM
-app.get('/rangelinhadescricao/:range/:linha/:descricao', bd.getByRangeLinhaDescricao);
-
-// http://localhost:3102/minmaxrange/1603
-app.get('/minmaxrange/:range', bd.getMinMaxByRange);
-// http://localhost:3102/minmaxrangelinha/1603/Porta Pax Dian.
-app.get('/minmaxrangelinha/:range/:linha', bd.getMinMaxByRangeLinha);
-// http://localhost:3102/minmaxrangelinhadescricao/1603/Porta Pax Dian./SELAGEM
-app.get('/minmaxrangelinhadescricao/:range/:linha/:descricao', bd.getMinMaxByRangeLinhaDescricao);
-
+/* LISTAR OS DADOS DISTINTOS */
 // http://localhost:3102/drange
 app.get('/drange', bd.getDistinctRange);
 // http://localhost:3102/dlinha
 app.get('/dlinha', bd.getDistinctLinha);
-// http://localhost:3102/ddescricao
-app.get('/ddescricao', bd.getDistinctDescricao);
-// http://localhost:3102/dlinhabyrange/1603
-app.get('/dlinhabyrange/:range', bd.getDistinctLinhaByRange);
-// http://localhost:3102/ddescricaobyrangelinha/1603/Porta Pax Dian.
-app.get('/ddescricaobyrangelinha/:range/:linha', bd.getDistinctDescricaoByRangeLinha);
+// http://localhost:3102/dposto
+app.get('/dposto', bd.getDistinctPosto);
+
+/* LISTAR OS DADOS */
+// http://localhost:3102/range/1603
+app.get('/range/:range', bd.getByRange);
+// http://localhost:3102/linha/Porta Pax Dian.
+app.get('/linha/:linha', bd.getByLinha);
+// http://localhost:3102/posto/GM5
+app.get('/posto/:posto', bd.getByPosto);
+// http://localhost:3102/dados/1603/GM5
+app.get('/dados/:range/:posto', bd.getByRangePosto);
+// http://localhost:3102/dados/1603/Porta Pax Dian./GM5
+app.get('/dados/:range/:linha/:posto', bd.getByRangeLinhaPosto);
+
+
+/* LISTAR AS ESTATÍSTICAS DOS DADOS */
+// http://localhost:3102/statsrange/1603
+app.get('/statsrange/:range', bd.getStatsByRange);
+// http://localhost:3102/statslinha/Porta Pax Dian.
+app.get('/statslinha/:linha', bd.getStatsByLinha);
+// http://localhost:3102/statsposto/GM5
+app.get('/statsposto/:posto', bd.getStatsByPosto);
+// http://localhost:3102/stats/1603/GM5
+app.get('/stats/:range/:posto', bd.getStatsByRangePosto);
+// http://localhost:3102/stats/1603/Porta Pax Dian./GM5
+app.get('/stats/:range/:linha/:posto', bd.getStatsByRangeLinhaPosto);
 
 /* 
 para deixar o seu servidor rodando na porta 3102
