@@ -1,10 +1,11 @@
 <template>
-	<v-container>
+	<v-container class="fluid">
 		<v-row>
 			<v-col 
 			v-for="i in 12"
 			:key="i"
-			col="3"
+			cols="12"
+			md="3"
 			>
 				<card-image 
 					:programa="titulo"
@@ -12,7 +13,6 @@
 				/>
 			</v-col>
 		</v-row>
-		<span>{{titulo}}</span>
 	</v-container>
 </template>
 <style scoped>
