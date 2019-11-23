@@ -16,8 +16,8 @@
               <v-icon v-on="on">
                 {{ item.icon }}
               </v-icon>
-            </template>
             <span>{{ item.text }} </span>
+            </template>
           </v-tooltip>
         </v-list-item-action>
       </v-list-item>
@@ -28,10 +28,14 @@
     <v-app-bar
       app
       color="latecoereGray"
-      dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Dashboard Latecoere</v-toolbar-title>
+      <img 
+        src="/images/logo-latecoere.png" 
+        max-width="80"
+        max-height="30"
+
+      />
     </v-app-bar>
 
     <v-content>
@@ -41,7 +45,9 @@
       color="latecoereGray"
       app
     >
-      <span class="white--text">&copy; 2019</span>
+      <span>&copy; 
+       {{ (new Date()).getFullYear() }}
+       <strong>Fatec São José dos Campos</strong></span>
     </v-footer>
   </v-app>
 </template>
@@ -54,8 +60,8 @@
     data: () => ({
       drawer: null,
       items: [
-          { text: 'Programa', icon: 'description', to:'/' },
-          { text: 'Slider', icon: 'account_circle', to: '/Slider' }
+          { text: 'Programa', icon: 'mdi-package-variant', to:'/' },
+          { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' }
       ],
     }),
   }
