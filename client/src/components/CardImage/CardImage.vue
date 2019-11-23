@@ -2,12 +2,11 @@
 	<v-card
     class="mx-auto"
     color="latecoereGray"
-    max-height="250"
     to="/programa"
   >
     <v-img
       class="align-end"
-      width="200"
+      width="400"
       :src="path"
     >
     </v-img>
