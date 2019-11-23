@@ -60,7 +60,7 @@
     data: () => ({
       drawer: null,
       items: [
-          { text: 'Programa', icon: 'mdi-package-variant', to:'/' },
+          { text: 'Programa', icon: 'mdi-package-variant', to:'/programa' },
           { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' }
       ],
     }),
