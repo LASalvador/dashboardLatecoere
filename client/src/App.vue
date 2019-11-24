@@ -49,6 +49,12 @@
        {{ (new Date()).getFullYear() }}
        <strong>Fatec São José dos Campos</strong></span>
     </v-footer>
+    <v-overlay :value="loader.state">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      />
+    </v-overlay>
   </v-app>
 </template>
 
@@ -58,12 +64,33 @@
       source: String,
     },
     data: () => ({
-      drawer: null,
+      drawer: false,
       items: [
           { text: 'Início', icon: 'mdi-home', to:'/' },
           { text: 'Programa', icon: 'mdi-package-variant', to:'/programa' },
           { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' }
       ],
+      loader: {
+        state: false,
+      }
     }),
+    created () {
+      const vm = this
+      this.$eventhub.$on('before-request', vm.activate)
+      this.$eventhub.$on('after-request', vm.deactivate)
+    },
+    beforeDestroyed () {
+      const vm = this
+      this.$eventhub.$off('before-request', vm.activate)
+      this.$eventhub.$off('after-request', vm.deactivate)
+    },
+    methods: {
+      activate: function () {
+        this.loader.state = true
+      },
+      deactivate: function () {
+        this.loader.state = false
+      },
+    },
   }
 </script>
