@@ -1,9 +1,9 @@
 export default {
   name: 'Programa',
-  data() {
+  data () {
     return {
       titulo: 'Teste',
-      path: 'images/programas/ELP.png'
+      path: 'images/programas/ELP.png',
     }
   },
   methods: {

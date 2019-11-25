@@ -6,22 +6,21 @@
     >
       <v-list dense>
         <v-list-item
-        v-for="(item, i) in items"
-        :key="i"
-        :to="item.to"
-      >
-        <v-list-item-action>
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <v-icon v-on="on">
-                {{ item.icon }}
-              </v-icon>
-            <span>{{ item.text }} </span>
-            </template>
-          </v-tooltip>
-        </v-list-item-action>
-      </v-list-item>
-
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+        >
+          <v-list-item-action>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on">
+                  {{ item.icon }}
+                </v-icon>
+                <span>{{ item.text }} </span>
+              </template>
+            </v-tooltip>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -34,7 +33,7 @@
         src="/images/logo-latecoere.png"
         max-width="80"
         max-height="30"
-      />
+      >
     </v-app-bar>
 
     <v-content>
