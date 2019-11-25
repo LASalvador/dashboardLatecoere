@@ -30,24 +30,24 @@
       color="latecoereGray"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <img 
-        src="/images/logo-latecoere.png" 
+      <img
+        src="/images/logo-latecoere.png"
         max-width="80"
         max-height="30"
-
       />
     </v-app-bar>
 
     <v-content>
-         <router-view />
+      <router-view />
     </v-content>
     <v-footer
       color="latecoereGray"
       app
     >
-      <span>&copy; 
-       {{ (new Date()).getFullYear() }}
-       <strong>Fatec São José dos Campos</strong></span>
+      <span>&copy;
+        {{ (new Date()).getFullYear() }}
+        <strong>Fatec São José dos Campos</strong>
+      </span>
     </v-footer>
     <v-overlay :value="loader.state">
       <v-progress-circular
@@ -61,18 +61,21 @@
 <script>
   export default {
     props: {
-      source: String,
+      source: {
+        type: String,
+        default: undefined,
+      },
     },
     data: () => ({
       drawer: false,
       items: [
-          { text: 'Início', icon: 'mdi-home', to:'/' },
-          { text: 'Programa', icon: 'mdi-package-variant', to:'/programa' },
-          { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' }
+        { text: 'Início', icon: 'mdi-home', to: '/' },
+        { text: 'Programa', icon: 'mdi-package-variant', to: '/programa' },
+        { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' },
       ],
       loader: {
         state: false,
-      }
+      },
     }),
     created () {
       const vm = this
