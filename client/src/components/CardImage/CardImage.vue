@@ -2,7 +2,7 @@
   <v-card
     class="mx-auto"
     color="latecoereGray"
-    to="/programa"
+    :to="to"
   >
     <img
       height="150"
