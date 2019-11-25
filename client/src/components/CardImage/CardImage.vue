@@ -42,7 +42,7 @@
     },
     computed: {
       to () {
-        return '/programas/' + this.programa
+        return '/programa/' + this.programa
       },
       path () {
         return this.resolverCaminho()
