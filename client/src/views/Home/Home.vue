@@ -6,6 +6,8 @@
         :key="index"
         cols="12"
         md="3"
+        lg="3"
+        xl="3"
       >
         <card-image
           :programa="programa.linha"
