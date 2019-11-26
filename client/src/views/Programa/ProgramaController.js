@@ -4,20 +4,25 @@ export default {
   data () {
     return {
       titulo: 'Teste',
-      path: 'images/programas/OW.png',
+      path: '',
       programa: this.$route.params.id,
       programas: [],
       linhas: [],
       ranges: [],
+      range: '',
     }
   },
   created () {
-    this.resolverCaminho()
+    if (this.programa) {
+      this.resolverCaminho()
+    }
   },
   beforeMount () {
-    this.pegarDadosLinha()
     this.pegarProgramas()
-    this.pegarRanges()
+    if (this.programa) {
+      this.pegarDadosLinha()
+      this.pegarRanges()
+    }
   },
   methods: {
     resolverCaminho () {
@@ -71,9 +76,24 @@ export default {
         var ranges = await api.getDistinctRangeByLinha(this.programa)
         this.ranges = ranges.data
       },
+      async pegarDadosRange () {
+        var programas = await api.getLinhaRangeGroupByPosto(this.programa, this.range)
+        var programasTemp = []
+        programas.data.forEach((posto) => {
+          programasTemp.push({
+            linha: posto.linha,
+            posto: posto.posto,
+            duracaoMediaReal: posto.avg_fimreal_inicioreal,
+            duracaoMediaPlan: posto.avg_fimplan_inicioplan,
+            somatorio: posto.sum_fimreal_fimplan,
+          })
+        })
+        this.programas = programasTemp
+      },
       atualizarLinha () {
         this.resolverCaminho()
         this.pegarDadosLinha()
+        this.pegarRanges()
       },
   },
 }

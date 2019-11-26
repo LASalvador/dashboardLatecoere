@@ -8,8 +8,9 @@
         xl="4"
       >
         <v-img
+          v-if="path"
           :src="path"
-          :alt="titulo"
+          :alt="programa"
         />
       </v-col>
       <v-col
@@ -36,11 +37,13 @@
               @change="atualizarLinha"
             />
             <v-select
+              v-model="range"
               :items="ranges"
               item-text="range"
               item-value="range"
               label="Ranges"
               outlined
+              @change="pegarDadosRange"
             />
           </v-card-text>
         </v-card>
