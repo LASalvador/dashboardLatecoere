@@ -20,18 +20,26 @@
       >
         <v-card color="latecoereBlueLight">
           <v-card-title class="white--text">
-            Programa: {{ titulo }}
+            Programa: {{ programa }}
           </v-card-title>
-
           <v-card-subtitle>
-            Estatísticas sobre o programa
+            Dados sobre:
           </v-card-subtitle>
-
-          <v-card-text class="white--text">
-            <p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>
-            <p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>
-            <p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>
-            <p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>
+          <v-card-text>
+            <v-select
+              v-model="programa"
+              :items="linhas"
+              item-text="linha"
+              item-value="linha"
+              label="programas"
+              outlined
+              @change="atualizarLinha"
+            />
+            <v-select
+              :items="['a', 'b', 'c']"
+              label="Range"
+              outlined
+            />
           </v-card-text>
         </v-card>
       </v-col>

@@ -7,6 +7,7 @@ export default {
       path: 'images/programas/OW.png',
       programa: this.$route.params.id,
       programas: [],
+      linhas: [],
     }
   },
   created () {
@@ -14,6 +15,7 @@ export default {
   },
   beforeMount () {
     this.pegarDadosLinha()
+    this.pegarProgramas()
   },
   methods: {
     resolverCaminho () {
@@ -58,6 +60,14 @@ export default {
           })
         })
         this.programas = programasTemp
+      },
+      async pegarProgramas () {
+         var programas = await api.distinctLinha()
+         this.linhas = programas.data
+      },
+      atualizarLinha () {
+        this.resolverCaminho()
+        this.pegarDadosLinha()
       },
   },
 }
