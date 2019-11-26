@@ -10,7 +10,13 @@ const getLinhaGroupByPosto = (programa) => {
   return http().get(`${endpoint}${programa}`)
 }
 
+const getDistinctRangeByLinha = (programa) => {
+  var endpoint = 'drange/'
+  return http().get(`${endpoint}${programa}`)
+}
+
 export default {
   distinctLinha,
   getLinhaGroupByPosto,
+  getDistinctRangeByLinha,
 }

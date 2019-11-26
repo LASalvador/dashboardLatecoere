@@ -8,6 +8,7 @@ export default {
       programa: this.$route.params.id,
       programas: [],
       linhas: [],
+      ranges: [],
     }
   },
   created () {
@@ -16,6 +17,7 @@ export default {
   beforeMount () {
     this.pegarDadosLinha()
     this.pegarProgramas()
+    this.pegarRanges()
   },
   methods: {
     resolverCaminho () {
@@ -64,6 +66,10 @@ export default {
       async pegarProgramas () {
          var programas = await api.distinctLinha()
          this.linhas = programas.data
+      },
+      async pegarRanges () {
+        var ranges = await api.getDistinctRangeByLinha(this.programa)
+        this.ranges = ranges.data
       },
       atualizarLinha () {
         this.resolverCaminho()

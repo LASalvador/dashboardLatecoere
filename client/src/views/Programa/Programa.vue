@@ -36,8 +36,10 @@
               @change="atualizarLinha"
             />
             <v-select
-              :items="['a', 'b', 'c']"
-              label="Range"
+              :items="ranges"
+              item-text="range"
+              item-value="range"
+              label="Ranges"
               outlined
             />
           </v-card-text>
