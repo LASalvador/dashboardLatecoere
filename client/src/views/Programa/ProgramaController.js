@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     resolverCaminho () {
-        var base = 'images/programas/'
+        var base = '/images/programas/'
 
         if (this.programa === 'CF-1') {
           this.arquivo = 'CF-1.png'
