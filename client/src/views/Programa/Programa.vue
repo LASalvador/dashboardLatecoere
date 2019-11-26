@@ -4,6 +4,8 @@
       <v-col
         cols="12"
         md="4"
+        lg="4"
+        xl="4"
       >
         <v-img
           :src="path"
@@ -13,6 +15,8 @@
       <v-col
         cols="12"
         md="8"
+        lg="8"
+        xl="8"
       >
         <v-card color="latecoereBlueLight">
           <v-card-title class="white--text">
@@ -34,44 +38,24 @@
     </v-row>
     <v-row>
       <v-col
+        v-for="(posto, index) in programas"
+        :key="index"
         cols="12"
-        md="10"
-      >
-        <v-row>
-          <v-col
-            v-for="i in 35"
-            :key="i"
-            cols="12"
-            md="3"
-          >
-            <v-card
-              outlined
-              color="latecoereOrange"
-            >
-              <v-card-subtitle>
-                Posto: 111
-              </v-card-subtitle>
-              <v-card-text class="white--text">
-                <p>Dados: 222</p>
-                <p>Dados: 333</p>
-                <p>Dados: 444</p>
-                <p>Dados: 555</p>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col
-        cols="12"
-        md="2"
+        md="3"
+        lg="3"
+        xl="3"
       >
         <v-card
-          v-for="i in 12"
-          :key="i"
-          color="latecoereBlueDark mb-3"
+          outlined
+          :color="posto.somatorio === 0 ? 'green darken-3' : posto.somatorio > 0 ? 'light-blue  darken-3' : 'red darken-3' "
         >
+          <v-card-subtitle>
+            Posto: {{ posto.posto }}
+          </v-card-subtitle>
           <v-card-text class="white--text">
-            aaaaaaaaaaaaaaaaaaaaaaaaa
+            <p>Duração Média Plan: {{ posto.duracaoMediaPlan }}</p>
+            <p>Duração Média Real: {{ posto.duracaoMediaReal }}</p>
+            <p>Somatório: {{ posto.somatorio }}</p>
           </v-card-text>
         </v-card>
       </v-col>
