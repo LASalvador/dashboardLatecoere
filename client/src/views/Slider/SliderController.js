@@ -26,9 +26,6 @@ export default {
   beforeMount () {
     this.pegarDados()
   },
-  beforeUpdate () {
-    console.log('aaaaaaaa')
-  },
   methods: {
     async pegarDados () {
       var programas = await api.distinctLinha()
@@ -45,7 +42,6 @@ export default {
           })
         })
         programa.dados = programasTemp
-        programa.path = this.resolverCaminho(programa.linha)
       })
       this.items = programas.data
     },
