@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fluid">
+  <v-container fluid>
     <v-row>
       <v-col
         v-for="(programa, index) in programas"
