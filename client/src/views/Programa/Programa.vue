@@ -7,11 +7,12 @@
         lg="4"
         xl="4"
       >
-        <v-img
+        <img
           v-if="path"
           :src="path"
           :alt="programa"
-        />
+          height="120"
+        >
       </v-col>
       <v-col
         cols="12"
@@ -19,32 +20,38 @@
         lg="8"
         xl="8"
       >
-        <v-card color="latecoereBlueLight">
-          <v-card-title class="white--text">
+        <v-card color="latecoereGray">
+          <v-card-title>
             Programa: {{ programa }}
           </v-card-title>
           <v-card-subtitle>
             Dados sobre:
           </v-card-subtitle>
           <v-card-text>
-            <v-select
-              v-model="programa"
-              :items="linhas"
-              item-text="linha"
-              item-value="linha"
-              label="programas"
-              outlined
-              @change="atualizarLinha"
-            />
-            <v-select
-              v-model="range"
-              :items="ranges"
-              item-text="range"
-              item-value="range"
-              label="Ranges"
-              outlined
-              @change="pegarDadosRange"
-            />
+            <v-row>
+              <v-col cols="6">
+                <v-select
+                  v-model="programa"
+                  :items="linhas"
+                  item-text="linha"
+                  item-value="linha"
+                  label="programas"
+                  outlined
+                  @change="atualizarLinha"
+                />
+            </v-col>
+            <v-col cols="6">
+              <v-select
+                v-model="range"
+                :items="ranges"
+                item-text="range"
+                item-value="range"
+                label="Ranges"
+                outlined
+                @change="pegarDadosRange"
+              />
+            </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -78,4 +85,4 @@
 <style scoped>
 
 </style>
-<script src="./ProgramaController.js"> </script>
+<script src="./ProgramaController.js"></script>
