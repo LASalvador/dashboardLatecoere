@@ -5,6 +5,22 @@ export default {
     return {
       items: [],
       arquivo: '',
+      model: null,
+      imagens: [
+        { path: '/images/programas/CF-1.png', title: 'CF-1' },
+        { path: '/images/programas/CF-3.png', title: 'CF-3' },
+        { path: '/images/programas/OW.png', title: 'OW' },
+        { path: '/images/programas/Porta Bag Dian E1 e E2.png', title: 'Porta Bagag. Diant.E1' },
+        { path: '/images/programas/Porta Bag Dian E1 e E2.png', title: 'Porta Bagag. Diant.E2' },
+        { path: '/images/programas/Porta Bag Tras E1 e E2.png', title: 'Porta Bagag. Tras.E1' },
+        { path: '/images/programas/Porta Bag Tras E1 e E2.png', title: 'Porta Bagag. Tras.E2' },
+        { path: '/images/programas/Porta Pax Dian.png', title: 'Porta Pax Dian.' },
+        { path: '/images/programas/Porta Pax Tras.png', title: 'Porta Pax Tras.' },
+        { path: '/images/programas/Porta Serv Dian.png', title: 'Porta Serv. Dian.' },
+        { path: '/images/programas/Porta Serv Tras.png', title: 'Porta Serv Tras' },
+        { path: '/images/programas/Porta Serv Tras.png', title: 'Porta Serv Tras' },
+        { path: '/images/programas/ELP.png', title: 'Portas Legacy' },
+      ],
     }
   },
   beforeMount () {
@@ -14,35 +30,6 @@ export default {
     console.log('aaaaaaaa')
   },
   methods: {
-    resolverCaminho (programa) {
-        var base = '/images/programas/'
-
-        if (programa === 'CF-1') {
-          this.arquivo = 'CF-1.png'
-        } else if (programa === 'CF-3') {
-          this.arquivo = 'CF-3.png'
-        } else if (programa === 'OW') {
-          this.arquivo = 'OW.png'
-        } else if (programa === 'Porta Bagag. Diant.E1' || programa === 'Porta Bagag. Diant.E2') {
-          this.arquivo = 'Porta Bag Dian E1 e E2.png'
-        } else if (programa === 'Porta Bagag. Tras.E1' || programa === 'Porta Bagag. Tras.E2') {
-          this.arquivo = 'Porta Bag Tras E1 e E2.png'
-        } else if (programa === 'Porta Pax Dian.') {
-          this.arquivo = 'Porta Pax Dian.png'
-        } else if (programa === 'Porta Pax Tras.') {
-          this.arquivo = 'Porta Pax Tras.png'
-        } else if (programa === 'Porta Serv. Dian.') {
-          this.arquivo = 'Porta Serv Dian.png'
-        } else if (programa === 'Porta Serv.Tras.') {
-          this.arquivo = 'Porta Serv Tras.png'
-        } else if (programa === 'Portas Legacy') {
-          this.arquivo = 'ELP.png'
-        } else {
-          this.arquivo = 'aaa.png'
-        }
-
-        return base + this.arquivo
-    },
     async pegarDados () {
       var programas = await api.distinctLinha()
       programas.data.forEach(async (programa) => {
