@@ -3,9 +3,9 @@
     <v-row dense>
       <v-col
         cols="12"
-        md="2"
-        lg="2"
-        xl="2"
+        md="3"
+        lg="3"
+        xl="3"
       >
         <transition
           name="fade"
@@ -17,8 +17,9 @@
           >
             <v-card-text>
               <img
-              :src="programas[pos].path"
-              :alt="programas[pos].title"
+                :src="programas[pos].path"
+                :alt="programas[pos].title"
+                height="120"
               />
               <div>{{ programas[pos].title }}</div>
             </v-card-text>
