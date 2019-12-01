@@ -4,9 +4,7 @@ export default {
   data () {
     return {
       items: [],
-      arquivo: '',
-      model: null,
-      imagens: [
+      programas: [
         { path: '/images/programas/CF-1.png', title: 'CF-1' },
         { path: '/images/programas/CF-3.png', title: 'CF-3' },
         { path: '/images/programas/OW.png', title: 'OW' },
@@ -21,10 +19,24 @@ export default {
         { path: '/images/programas/Porta Serv Tras.png', title: 'Porta Serv Tras' },
         { path: '/images/programas/ELP.png', title: 'Portas Legacy' },
       ],
+      pos: 0,
+      dados: '',
+      path: [],
+      title: '',
+      show: true,
     }
+  },
+  computed: {
+    tamanho () {
+      return this.programas.length
+    },
+  },
+  created () {
+    setInterval(this.atualizarDados, 10000)
   },
   beforeMount () {
     this.pegarDados()
+    this.atualizarDados()
   },
   methods: {
     async pegarDados () {
@@ -44,6 +56,11 @@ export default {
         programa.dados = programasTemp
       })
       this.items = programas.data
+    },
+    atualizarDados () {
+      this.show = false
+      this.pos = (this.pos + 1) % this.tamanho
+      this.show = true
     },
   },
 }
