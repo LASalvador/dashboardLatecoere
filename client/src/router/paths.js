@@ -1,11 +1,10 @@
-import Home from '../views/Home/Home'
 import Programa from '../views/Programa/Programa'
 import Slider from '../views/Slider/Slider'
 
 export default [
   {
     path: '/',
-    component: Home,
+    component: Programa,
   },
   {
     path: '/programa',

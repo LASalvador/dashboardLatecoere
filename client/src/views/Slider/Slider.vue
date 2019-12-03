@@ -12,7 +12,6 @@
           mode="out-in"
         >
           <v-card
-            v-if="show"
             key="1"
           >
             <v-card-text>
@@ -20,14 +19,10 @@
                 :src="programas[pos].path"
                 :alt="programas[pos].title"
                 height="120"
-              />
+              >
               <div>{{ programas[pos].title }}</div>
             </v-card-text>
           </v-card>
-          <div
-            v-else
-            key="2"
-          ></div>
         </transition>
       </v-col>
       <v-col

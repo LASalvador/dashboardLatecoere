@@ -23,7 +23,6 @@ export default {
       dados: '',
       path: [],
       title: '',
-      show: true,
     }
   },
   computed: {
@@ -31,13 +30,13 @@ export default {
       return this.programas.length
     },
   },
-  created () {
+  async created () {
+     await this.pegarDados()
+  },
+  mounted () {
     setInterval(this.atualizarDados, 10000)
   },
-  beforeMount () {
-    this.pegarDados()
-    this.atualizarDados()
-  },
+
   methods: {
     async pegarDados () {
       var programas = await api.distinctLinha()
@@ -58,9 +57,7 @@ export default {
       this.items = programas.data
     },
     atualizarDados () {
-      this.show = false
       this.pos = (this.pos + 1) % this.tamanho
-      this.show = true
     },
   },
 }

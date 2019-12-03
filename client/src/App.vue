@@ -68,9 +68,8 @@
     data: () => ({
       drawer: false,
       items: [
-        { text: 'Início', icon: 'mdi-home', to: '/' },
-        { text: 'Programa', icon: 'mdi-package-variant', to: '/programa' },
-        { text: 'Slider', icon: 'mdi-timer-sand-full', to: '/Slider' },
+        { text: 'Modo PC', icon: 'mdi-package-variant', to: '/programa' },
+        { text: 'Modo TV', icon: 'mdi-timer-sand-full', to: '/Slider' },
       ],
       loader: {
         state: false,
