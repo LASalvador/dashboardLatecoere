@@ -16,9 +16,9 @@ app.get('/group/:linha', bd.getLinhaGroupByPosto);
 app.get('/group/:linha/:range', bd.getLinhaRangeGroupByPosto);
 // http://localhost:3102/drange/CF-3
 app.get('/drange/:linha', bd.getDistinctRangeByLinha);
-// http://localhost:3102/dlinha
-app.get('/dlinha', bd.getDistinctLinha);
 
+// http://localhost:3102/closed/OW
+app.get('/closed/:linha', bd.getLastClosedRangeByPosto);
 
 /* 
 para deixar o seu servidor rodando na porta 3102
@@ -27,3 +27,5 @@ http://localhost:3102/
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}...`);
 });
+
+

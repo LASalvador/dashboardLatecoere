@@ -8,6 +8,25 @@ const bd = new sqlite3.Database('./bdparceria.db', (error) => {
     }
 });
 
+const getLastClosedRangeByPosto = (request, response) => {
+    bd.all(
+        'select range, linha, posto, max(strftime("%Y-%m-%d %H:%M:%S", datafimreal)) as "max", fimreal_fimplan ' +
+        'from tbdados ' +
+        'where linha = ? ' +
+        'group by posto ' +
+        'order by posto',
+        [request.params.linha],
+        (error, rows) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
+        }
+    );
+};
+
+
+
 // retorna o somatório e média de uma determinada linha agrupados pelo posto
 const getLinhaGroupByPosto = (request, response) => {
     bd.all(
@@ -67,21 +86,10 @@ const getDistinctRangeByLinha = (request, response) => {
     );
 };
 
-const getDistinctLinha = (request, response) => {
-    bd.all(
-        'select distinct linha from tbdados order by linha',
-        (error, rows) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(rows);
-        }
-    );
-};
-
 module.exports = {
     getLinhaGroupByPosto,
     getLinhaRangeGroupByPosto,
     getDistinctRangeByLinha,
-    getDistinctLinha,
+    getLastClosedRangeByPosto
 };
+
