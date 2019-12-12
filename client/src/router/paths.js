@@ -1,6 +1,7 @@
 import Home from '../views/Home/Home'
 import Programa from '../views/Programa/Programa'
 import Slider from '../views/Slider/Slider'
+import Sobre from '../views/Sobre/Sobre'
 
 export default [
   {
@@ -14,6 +15,10 @@ export default [
   {
     path: '/slider',
     component: Slider,
+  },
+  {
+    path: '/sobre',
+    component: Sobre,
   },
   {
     path: '*',
