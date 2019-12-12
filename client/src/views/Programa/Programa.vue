@@ -7,34 +7,56 @@
         lg="3"
         xl="3"
       >
-        <v-card color="latecoereGray">
-          <v-card-text>
-            <img
-              v-if="path"
-              :src="path"
-              :alt="programa"
-              height="120"
-            >
-            <v-select
-              v-model="programa"
-              :items="linhas"
-              item-text="linha"
-              item-value="linha"
-              label="Selecione uma linha"
-              outlined
-              @change="atualizarLinha"
-            />
-            <v-select
-              v-model="range"
-              :items="ranges"
-              item-text="range"
-              item-value="range"
-              label="Selecione um range"
-              outlined
-              @change="pegarDadosRange"
-            />
-          </v-card-text>
-        </v-card>
+        <v-row>
+          <v-col cols="12">
+            <v-card color="latecoereGray">
+              <v-card-text>
+                <img
+                  v-if="path"
+                  :src="path"
+                  :alt="programa"
+                  height="120"
+                >
+                <v-select
+                  v-model="programa"
+                  :items="linhas"
+                  item-text="linha"
+                  item-value="linha"
+                  label="Selecione uma linha"
+                  outlined
+                  @change="atualizarLinha"
+                  color="latecoereBlue"
+                />
+                <v-select
+                  v-model="range"
+                  :items="ranges"
+                  item-text="range"
+                  item-value="range"
+                  label="Selecione um range"
+                  outlined
+                  @change="pegarDadosRange"
+                  color="latecoereBlue"
+                />
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card color="latecoereGray">
+              <v-card-text>
+                <div class="subtitle-2 font-weight-black">Legenda: </div>
+                <div class="green darken-3 text-center">
+                  <span class="font-weight-bold">Em Dia</span>
+                </div>
+                <div class="light-blue  darken-3 text-center">
+                  <span class="font-weight-bold">Avançado</span>
+                </div>
+                <div class="red darken-3 text-center">
+                  <span class="font-weight-bold">Atrasado</span>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col
         cols="12"
