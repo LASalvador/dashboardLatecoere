@@ -69,7 +69,7 @@
       drawer: false,
       items: [
         { text: 'Modo PC', icon: 'mdi-package-variant', to: '/programa' },
-        { text: 'Modo TV', icon: 'mdi-timer-sand-full', to: '/Slider' },
+        { text: 'Modo TV', icon: 'mdi-timer-sand-full', to: '/slider' },
       ],
       loader: {
         state: false,
