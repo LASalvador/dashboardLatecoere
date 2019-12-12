@@ -24,6 +24,7 @@
               to="/programa"
               large
               color="latecoereBlueDark"
+              class="white--text"
             >
               Modo PC
             </v-btn>
@@ -32,6 +33,7 @@
               to="/slider"
               large
               color="latecoereBlueDark"
+              class="white--text"
             >
               Modo TV
             </v-btn>
