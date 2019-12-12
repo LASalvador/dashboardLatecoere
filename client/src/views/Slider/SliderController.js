@@ -39,21 +39,6 @@ export default {
   methods: {
     async pegarDados () {
       var programas = await api.distinctLinha()
-      // programas.data.forEach(async (programa) => {
-      //   var progs = await api.getLinhaGroupByPosto(programa.linha)
-      //   var programasTemp = []
-      //   progs.data.forEach((posto) => {
-      //     programasTemp.push({
-      //       linha: posto.linha,
-      //       posto: posto.posto,
-      //       duracaoMediaReal: posto.avg_fimreal_inicioreal,
-      //       duracaoMediaPlan: posto.avg_fimplan_inicioplan,
-      //       somatorio: posto.sum_fimreal_fimplan,
-      //     })
-      //   })
-      //   programa.dados = programasTemp
-      // })
-
       for (let index = 0; index < programas.data.length; index++) {
         const programa = programas.data[index]
         var progs = await api.getLinhaGroupByPosto(programa.linha)
