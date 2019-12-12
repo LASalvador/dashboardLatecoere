@@ -9,18 +9,20 @@
       >
         <v-row>
           <v-col cols="12">
-            <v-card
-              key="1"
-            >
-              <v-card-text>
-                <img
-                  :src="programas[pos].path"
-                  :alt="programas[pos].title"
-                  height="120"
-                >
-                <div class="headline font-weight-black">{{ programas[pos].title }}</div>
-              </v-card-text>
-            </v-card>
+            <v-expand-transition>
+              <v-card
+                :key="`programa-${programas[pos].title}`"
+              >
+                <v-card-text>
+                  <img
+                    :src="programas[pos].path"
+                    :alt="programas[pos].title"
+                    height="120"
+                  >
+                  <div class="headline font-weight-black">{{ programas[pos].title }}</div>
+                </v-card-text>
+              </v-card>
+            </v-expand-transition>
           </v-col>
           <v-col cols="12">
             <v-card color="latecoereGray">
