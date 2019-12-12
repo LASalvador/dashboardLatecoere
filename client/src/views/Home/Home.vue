@@ -2,16 +2,41 @@
   <v-container fluid>
     <v-row>
       <v-col
-        v-for="(programa, index) in programas"
-        :key="index"
         cols="12"
-        md="3"
-        lg="3"
-        xl="3"
+        md="8"
+        lg="8"
+        xl="8"
       >
-        <card-image
-          :programa="programa.linha"
-        />
+        <v-card>
+          <v-card-title class="headline">
+            Selecione as opções disponíveis:
+          </v-card-title>
+          <v-card-text color="latecoereGray">
+            <div class="title">
+              <span class="font-weight-bold">Modo TV</span>
+              - Modo de slides para exibição em uma TV.
+            </div>
+            <div class="title">
+              <span class="font-weight-bold">Modo PC</span>
+              - Modo para exibição em um computador, com filtros de Range e programa.
+            </div>
+            <v-btn
+              to="/programa"
+              large
+              color="latecoereBlueDark"
+            >
+              Modo PC
+            </v-btn>
+            &nbsp; &nbsp; &nbsp;
+            <v-btn
+              to="/slider"
+              large
+              color="latecoereBlueDark"
+            >
+              Modo TV
+            </v-btn>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
