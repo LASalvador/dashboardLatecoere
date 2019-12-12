@@ -86,10 +86,24 @@ const getDistinctRangeByLinha = (request, response) => {
     );
 };
 
+
+const getDistinctLinha = (request, response) => {
+    bd.all(
+        'select distinct linha from tbdados order by linha',
+        (error, rows) => {
+            if (error) {
+                throw error;
+            }
+            response.status(200).json(rows);
+        }
+    );
+};
+
 module.exports = {
     getLinhaGroupByPosto,
     getLinhaRangeGroupByPosto,
     getDistinctRangeByLinha,
-    getLastClosedRangeByPosto
+    getLastClosedRangeByPosto,
+    getDistinctLinha
 };
 

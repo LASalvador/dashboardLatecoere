@@ -20,6 +20,9 @@ app.get('/drange/:linha', bd.getDistinctRangeByLinha);
 // http://localhost:3102/closed/OW
 app.get('/closed/:linha', bd.getLastClosedRangeByPosto);
 
+// http://localhost:3102/dlinha
+app.get('/dlinha', bd.getDistinctLinha);
+
 /* 
 para deixar o seu servidor rodando na porta 3102
 http://localhost:3102/
