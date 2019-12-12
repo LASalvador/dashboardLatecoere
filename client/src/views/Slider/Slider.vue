@@ -7,23 +7,38 @@
         lg="3"
         xl="3"
       >
-        <transition
-          name="fade"
-          mode="out-in"
-        >
-          <v-card
-            key="1"
-          >
-            <v-card-text>
-              <img
-                :src="programas[pos].path"
-                :alt="programas[pos].title"
-                height="120"
-              >
-              <div>{{ programas[pos].title }}</div>
-            </v-card-text>
-          </v-card>
-        </transition>
+        <v-row>
+          <v-col cols="12">
+            <v-card
+              key="1"
+            >
+              <v-card-text>
+                <img
+                  :src="programas[pos].path"
+                  :alt="programas[pos].title"
+                  height="120"
+                >
+                <div class="headline font-weight-black">{{ programas[pos].title }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card color="latecoereGray">
+              <v-card-text>
+                <div class="subtitle-2 font-weight-black">Legenda: </div>
+                <div class="green darken-3 text-center">
+                  <span class="font-weight-bold">Em Dia</span>
+                </div>
+                <div class="light-blue  darken-3 text-center">
+                  <span class="font-weight-bold">Avançado</span>
+                </div>
+                <div class="red darken-3 text-center">
+                  <span class="font-weight-bold">Atrasado</span>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col
         cols="12"
