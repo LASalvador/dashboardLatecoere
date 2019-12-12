@@ -30,20 +30,36 @@ export default {
       return this.programas.length
     },
   },
-  async created () {
-     await this.pegarDados()
+  created () {
+     this.pegarDados()
   },
   mounted () {
     setInterval(this.atualizarDados, 10000)
   },
-
   methods: {
     async pegarDados () {
       var programas = await api.distinctLinha()
-      programas.data.forEach(async (programa) => {
+      // programas.data.forEach(async (programa) => {
+      //   var progs = await api.getLinhaGroupByPosto(programa.linha)
+      //   var programasTemp = []
+      //   progs.data.forEach((posto) => {
+      //     programasTemp.push({
+      //       linha: posto.linha,
+      //       posto: posto.posto,
+      //       duracaoMediaReal: posto.avg_fimreal_inicioreal,
+      //       duracaoMediaPlan: posto.avg_fimplan_inicioplan,
+      //       somatorio: posto.sum_fimreal_fimplan,
+      //     })
+      //   })
+      //   programa.dados = programasTemp
+      // })
+
+      for (let index = 0; index < programas.data.length; index++) {
+        const programa = programas.data[index]
         var progs = await api.getLinhaGroupByPosto(programa.linha)
         var programasTemp = []
-        progs.data.forEach((posto) => {
+        for (let j = 0; j < progs.data.length; j++) {
+          const posto = progs.data[j]
           programasTemp.push({
             linha: posto.linha,
             posto: posto.posto,
@@ -51,9 +67,9 @@ export default {
             duracaoMediaPlan: posto.avg_fimplan_inicioplan,
             somatorio: posto.sum_fimreal_fimplan,
           })
-        })
+        }
         programa.dados = programasTemp
-      })
+      }
       this.items = programas.data
     },
     atualizarDados () {
